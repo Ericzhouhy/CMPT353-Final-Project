@@ -50,5 +50,34 @@ if p_value < 0.05:
 else:
     print(f'There is no significant difference in unemployment rates between male and female.')
 
-mean_unemployment = df.groupby('GEO')['Unemployment Rate'].mean()
-print(mean_unemployment)
+mean_unemployment_male = unempl_male.groupby('GEO')['VALUE'].mean()
+median_unemployment_male = unempl_male.groupby('GEO')['VALUE'].median()
+std_unemployment_male = unempl_male.groupby('GEO')['VALUE'].std()
+min_unemployment_male = unempl_male.groupby('GEO')['VALUE'].min()
+max_unemployment_male = unempl_male.groupby('GEO')['VALUE'].max()
+
+summary_male = pd.DataFrame({
+    'Mean Unemployment': mean_unemployment_male,
+    'Median Unemployment': median_unemployment_male,
+    'Standard Deviation': std_unemployment_male,
+    'Minimum Unemployment': min_unemployment_male,
+    'Maximum Unemployment': max_unemployment_male
+})
+
+summary_male.to_csv('Unemployment_Summary_Male.csv')
+
+mean_unemployment_female = unempl_male.groupby('GEO')['VALUE'].mean()
+median_unemployment_female = unempl_male.groupby('GEO')['VALUE'].median()
+std_unemployment_female = unempl_male.groupby('GEO')['VALUE'].std()
+min_unemployment_female = unempl_male.groupby('GEO')['VALUE'].min()
+max_unemployment_female = unempl_male.groupby('GEO')['VALUE'].max()
+
+summary_female = pd.DataFrame({
+    'Mean Unemployment': mean_unemployment_female,
+    'Median Unemployment': median_unemployment_female,
+    'Standard Deviation': std_unemployment_female,
+    'Minimum Unemployment': min_unemployment_female,
+    'Maximum Unemployment': max_unemployment_female
+})
+
+summary_female.to_csv('Unemployment_Summary_Female.csv')
