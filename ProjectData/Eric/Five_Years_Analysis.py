@@ -49,3 +49,6 @@ if p_value < 0.05:
     print(f'There is a significant difference in unemployment rates between male and female.')
 else:
     print(f'There is no significant difference in unemployment rates between male and female.')
+
+mean_unemployment = df.groupby('GEO')['Unemployment Rate'].mean()
+print(mean_unemployment)
