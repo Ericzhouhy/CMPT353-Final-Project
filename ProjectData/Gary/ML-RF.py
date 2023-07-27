@@ -1,61 +1,49 @@
 import pandas as pd
-from statsmodels.tsa.arima.model import ARIMA
-from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 # 读取数据
 data = pd.read_csv("covid_and_employment_total_included.csv")
 
-# 将数据转化为时间序列格式
-data['REF_DATE'] = pd.to_datetime(data['REF_DATE'])
-data.set_index('REF_DATE', inplace=True)
-
-# 创建空的 list 用于存储结果
-results = []
-future_forecasts = []
-
-# 对每一个城市进行预测
+# 获取数据中所有的城市名称
 cities = data['GEO'].unique()
+
+# 创建一个空的DataFrame来保存结果
+results = pd.DataFrame(columns=['City', 'MSE', 'MAE', 'Feature Importance'])
+
+# 对每个城市进行循环处理
 for city in cities:
+    # 选取当前城市的数据
     city_data = data[data['GEO'] == city]
 
-    # 将数据划分为训练集和测试集
-    size = int(len(city_data) * 0.66)
-    train, test = city_data[0:size], city_data[size:len(city_data)]
-    history = [x for x in train['total employment rate(%)']]
-    predictions = list()
+    # 定义特征和目标变量
+    features = city_data[['covid cases', 'covid deaths']]
+    target = city_data['total unemployment rate(%)']
 
-    # 遍历测试集
-    for t in range(len(test)):
-        model = ARIMA(history, order=(5,1,0))  # ARIMA模型参数需要根据实际情况调整
-        model_fit = model.fit()
-        output = model_fit.forecast()
-        yhat = output[0]
-        predictions.append(yhat)
-        obs = test['total employment rate(%)'].iloc[t]
-        history.append(obs)
+    # 拆分数据集为训练集和测试集
+    X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2)
 
-        # 将结果添加到 results list 中
-        result = pd.DataFrame({"city": [city], 
-                               "date": [test.index[t]], 
-                               "actual": [obs], 
-                               "prediction": [yhat]})
-        results.append(result)
-    
-    # 对未来两个月进行预测
-    future_forecast = model_fit.forecast(steps=1)
-    future_result = pd.DataFrame({"city": city, 
-                                  "date": pd.date_range(start=test.index[-1] + pd.Timedelta(days=1), periods=2, freq='M'), 
-                                  "prediction": future_forecast[0]})
-    future_forecasts.append(future_result)
+    # 创建随机森林回归模型
+    rf_model = RandomForestRegressor(n_estimators=100, min_samples_split=2, min_samples_leaf=1)
 
-    # 计算预测误差
-    error = mean_squared_error(test['total employment rate(%)'], predictions)
-    print(f'{city} Test MSE: {error}')
+    # 训练模型
+    rf_model.fit(X_train, y_train)
 
-# 将结果合并为一个 DataFrame 并写入 CSV 文件
-results_df = pd.concat(results)
-results_df.to_csv("predictions_vs_actuals.csv", index=False)
+    # 对测试数据进行预测
+    predictions = rf_model.predict(X_test)
 
-# 将未来的预测合并为一个 DataFrame 并写入 CSV 文件
-future_forecasts_df = pd.concat(future_forecasts)
-future_forecasts_df.to_csv("future_predictions.csv", index=False)
+    # 计算 MSE 和 MAE
+    mse = mean_squared_error(y_test, predictions)
+    mae = mean_absolute_error(y_test, predictions)
+
+    # 获取特征重要性
+    feature_importances = rf_model.feature_importances_
+
+    # 将结果添加到结果DataFrame中
+    result = pd.DataFrame({'City': [city], 'MSE': [mse], 'MAE': [mae], 
+                          'Feature Importance': [feature_importances]})
+    results = pd.concat([results, result], ignore_index=True)
+
+# 将结果保存到CSV文件
+results.to_csv('results.csv', index=False)
