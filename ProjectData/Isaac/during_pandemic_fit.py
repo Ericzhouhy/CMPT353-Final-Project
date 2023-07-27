@@ -10,7 +10,7 @@ def to_datetime(date_str):
     return datetime.strptime(date_str, '%Y-%m')
 
 data = pd.read_csv('../covid_and_employment_total_included.csv')
-
+data = data[(data['REF_DATE'] >= '2020-01') & (data['REF_DATE']<='2023-01')]
 
 y = data['total unemployment rate(%)']
 result = linregress(data['covid cases'], y)
@@ -20,7 +20,7 @@ model_3 = LinearRegression(fit_intercept = True)
 model_3.fit(X = x_model_3, y = y)
 score_3 = model_3.score(x_model_3, y)
 model_4 = make_pipeline(
-    PolynomialFeatures(4),
+    PolynomialFeatures(3),
     LinearRegression(fit_intercept = True)
 )
 model_4.fit(x_model_3, y)
@@ -48,7 +48,7 @@ data_corr = data[['total population(1000)','total labor force(1000)',
                   'covid cases',
                   'covid deaths']]
 data_corr = data_corr.corr(method='pearson', numeric_only = True)
-data_corr.to_csv('covid_employment_correlations.csv', index = False)
+data_corr.to_csv('during_pandemic_correlations.csv', index = False)
 
 data['datetime'] = data['REF_DATE'].map(to_datetime)
 data = data[data['GEO'] == 'Canada']
@@ -66,4 +66,3 @@ plt.legend(['unemployment',
             'predictions with both',
             'polynomial regression of both'])
 plt.show()
-# data = data['REF_DATE' > '2020-01']
