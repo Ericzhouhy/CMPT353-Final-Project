@@ -10,7 +10,10 @@ employment_data = pd.read_csv('../combined_reformatted_total_included.csv')
 covid_data = covid_data[['date', 'prname', 'numtotal_last7', 'numdeaths_last7']]
 covid_data = covid_data.rename(columns = {'prname': 'GEO'})
 covid_data['REF_DATE'] = covid_data['date'].map(reformat_date)
-# print(covid_data)
+covid_data = covid_data.groupby(['GEO', 'REF_DATE']).agg({'numtotal_last7': 'sum',
+                                                          'numdeaths_last7':'sum'})
+covid_data = covid_data.rename(columns = {'numtotal_last7': 'covid cases',
+                                          'numdeaths_last7': 'covid deaths'})
 
 combined_data = employment_data.merge(covid_data, on = ['GEO', 'REF_DATE'], how = 'left')
 combined_data = combined_data.fillna(0.0)
