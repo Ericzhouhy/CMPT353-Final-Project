@@ -7,7 +7,7 @@ data['descriptor'] = data['Labour force characteristics']
 indices = ['REF_DATE', 'GEO']
 indices_val = ['REF_DATE', 'GEO', 'VALUE']
 indices_val_sex = ['REF_DATE', 'GEO', 'UOM', 'Sex', 'VALUE']
-grouped = data[indices].groupby(indices) \
+reformatted = data[indices].groupby(indices) \
                        .size() \
                        .reset_index() \
                        [indices]
@@ -56,7 +56,7 @@ employ_rate_female = employ_rate[employ_rate['Sex'] == 'Females'][indices_val] \
                    .rename(columns = {'VALUE': 'female employment rate(%)'})
 
 
-grouped = grouped.merge(pop_male, on = indices) \
+reformatted = reformatted.merge(pop_male, on = indices) \
                  .merge(pop_female, on = indices) \
                  .merge(labour_force_male, on = indices) \
                  .merge(labour_force_female, on = indices) \
@@ -71,4 +71,4 @@ grouped = grouped.merge(pop_male, on = indices) \
                  .merge(employ_rate_male, on = indices) \
                  .merge(employ_rate_female, on = indices)
 
-grouped.to_csv('../combined_grouped.csv', index = False)
+reformatted.to_csv('../combined_reformatted.csv', index = False)
