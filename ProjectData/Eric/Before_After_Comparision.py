@@ -1,26 +1,49 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy.stats import mannwhitneyu
 
-df = pd.read_csv('C:/Users/ericz/Desktop/CMPT353/CMPT353-Final-Project/ProjectData/Eric/combined.csv')
+# Assuming your data is in a CSV file called 'unemployment_data.csv'
+df = pd.read_csv('Unemployment_rate_AllGender.csv')
 
-df['REF_DATE'] = pd.to_datetime(df['REF_DATE'], format='%Y-%m')
+# Preprocess the data
+df['REF_DATE'] = pd.to_datetime(df['REF_DATE'])
 
-# Keep only unemployment rate data
-unempl_rate_data = df[(df['Labour force characteristics'] == 'Unemployment rate')]
-unempl_rate_data = unempl_rate_data.sort_values(by='REF_DATE')
+# Data filtering based on date ranges
+before_pandemic = df[(df['REF_DATE'] >= '2019-01-01') & (df['REF_DATE'] <= '2020-01-31')]
+during_pandemic = df[(df['REF_DATE'] >= '2020-02-01') & (df['REF_DATE'] <= '2021-02-28')]
+after_pandemic = df[(df['REF_DATE'] >= '2022-06-01') & (df['REF_DATE'] <= '2023-06-30')]
 
 
-start_date_1 = '2019-01-01'
-end_date_1 = '2020-01-01'
+# Data Visualization - Box Plots
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='GEO', y='Unemployment rate', hue='Period', data=pd.concat([before_pandemic.assign(Period='Before'), during_pandemic.assign(Period='During'), after_pandemic.assign(Period='After')]))
+plt.xlabel('Province')
+plt.ylabel('Unemployment Rate')
+plt.title('Unemployment Rate Distribution Comparison')
+plt.legend(title='Period')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.savefig('Unemployment_rate_boxplot.png')
 
-# Filter the data based on the date range
-before_pandemic = unempl_rate_data[(unempl_rate_data['REF_DATE'] >= start_date_1) & (unempl_rate_data['REF_DATE'] <= end_date_1)]
+# Statistical Analysis - T-Tests
+results_df = pd.DataFrame(columns=['Province' , 'p-value (Before vs During)' ,'p-value (Before vs After)','p-value (During vs After)'])
 
-start_date_2 = '2022-06-01'
-end_date_2 = '2023-06-01'
+for province in df['GEO'].unique():
+    before_values = before_pandemic[before_pandemic['GEO'] == province]['Unemployment rate']
+    during_values = during_pandemic[during_pandemic['GEO'] == province]['Unemployment rate']
+    after_values = after_pandemic[after_pandemic['GEO'] == province]['Unemployment rate']
+    
+    statistic_before_vs_during, pvalue_before_vs_during = mannwhitneyu(before_values, during_values, alternative='two-sided')
+    statistic_before_vs_after, pvalue_before_vs_after = mannwhitneyu(before_values, after_values, alternative='two-sided')
+    statistic_during_vs_after, pvalue_during_vs_after = mannwhitneyu(during_values, after_values, alternative='two-sided')
+    
+    results_df = results_df.append({
+        'Province': province,
+        'p-value (Before vs During)': pvalue_before_vs_during,
+        'p-value (Before vs After)': pvalue_before_vs_after,
+        'p-value (During vs After)': pvalue_during_vs_after
+    }, ignore_index=True)
 
-after_pandemic = unempl_rate_data[(unempl_rate_data['REF_DATE'] >= start_date_2) & (unempl_rate_data['REF_DATE'] <= end_date_2)]
-
-# Display the filtered DataFrame
-before_pandemic.to_csv('unemployment_rate_before_pandemic.csv', index=False)
-after_pandemic.to_csv('unemployment_rate_after_pandemic.csv', index=False)
+# Save the results to a CSV file
+results_df.to_csv('ttest_results.csv', index=False)
