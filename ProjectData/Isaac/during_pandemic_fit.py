@@ -48,7 +48,7 @@ data_corr = data[['total population(1000)','total labor force(1000)',
                   'covid cases',
                   'covid deaths']]
 data_corr = data_corr.corr(method='pearson', numeric_only = True)
-data_corr.to_csv('during_pandemic_correlations.csv', index = False)
+data_corr.to_csv('during_pandemic_correlations.csv')
 
 data['datetime'] = data['REF_DATE'].map(to_datetime)
 data = data[data['GEO'] == 'Canada']
