@@ -15,4 +15,4 @@ data['total employment rate(%)'] = (data['male employment rate(%)'] * data['male
                                      (data['female employment rate(%)'] * data['female pop weight'])
 
 data = data.drop(columns = ['male pop weight', 'female pop weight'])
-data.to_csv('../combined_combined_reformatted_total_included.csv', index = False)
+data.to_csv('../combined_reformatted_total_included.csv', index = False)

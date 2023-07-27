@@ -57,18 +57,18 @@ employ_rate_female = employ_rate[employ_rate['Sex'] == 'Females'][indices_val] \
 
 
 reformatted = reformatted.merge(pop_male, on = indices) \
-                 .merge(pop_female, on = indices) \
-                 .merge(labour_force_male, on = indices) \
-                 .merge(labour_force_female, on = indices) \
-                 .merge(fulltime_male, on = indices) \
-                 .merge(fulltime_female, on = indices) \
-                 .merge(unemploy_male, on = indices) \
-                 .merge(unemploy_female, on = indices) \
-                 .merge(unemploy_rate_male, on = indices) \
-                 .merge(unemploy_rate_female, on = indices) \
-                 .merge(part_rate_male, on = indices) \
-                 .merge(part_rate_female, on = indices) \
-                 .merge(employ_rate_male, on = indices) \
-                 .merge(employ_rate_female, on = indices)
+              .merge(pop_female, on = indices) \
+              .merge(labour_force_male, on = indices) \
+              .merge(labour_force_female, on = indices) \
+              .merge(fulltime_male, on = indices) \
+              .merge(fulltime_female, on = indices) \
+              .merge(unemploy_male, on = indices) \
+              .merge(unemploy_female, on = indices) \
+              .merge(unemploy_rate_male, on = indices) \
+              .merge(unemploy_rate_female, on = indices) \
+              .merge(part_rate_male, on = indices) \
+              .merge(part_rate_female, on = indices) \
+              .merge(employ_rate_male, on = indices) \
+              .merge(employ_rate_female, on = indices)
 
 reformatted.to_csv('../combined_reformatted.csv', index = False)
