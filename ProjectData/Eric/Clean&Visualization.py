@@ -24,3 +24,21 @@ unempl_both_sexs = unempl_rate_data[unempl_rate_data['Sex'] == 'Both sexes']
 unempl_male.to_csv('unempl_male.csv', index=False)
 unempl_female.to_csv('unempl_female.csv', index=False)
 unempl_both_sexs.to_csv('unempl_both_sex.csv', index=False)
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
+grouped_male = unempl_male.groupby('GEO')
+grouped_female = unempl_female.groupby('GEO')
+for geo, group_data in grouped_male:
+    ax1.plot(group_data['REF_DATE'], group_data['Unemployment Rate'],label=geo)
+ax1.set_title('Plot Grouped by GEO for Males')
+for geo, group_data in grouped_female:
+    ax2.plot(group_data['REF_DATE'], group_data['Unemployment Rate'],label=geo)
+ax2.set_title('Plot Grouped by GEO for Females')
+plt.xlabel('Date')
+ax1.set_ylabel('Value')
+ax2.set_ylabel('Value')
+plt.legend() 
+plt.xticks(rotation=45)
+plt.tight_layout() 
+plt.savefig('Umempl_Sex_compar.png')
+plt.close()

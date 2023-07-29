@@ -2,55 +2,64 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import scipy.stats as stats
+import seaborn as sns 
+from matplotlib.ticker import MaxNLocator 
 
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
-grouped_male = unempl_male.groupby('GEO')
-grouped_female = unempl_female.groupby('GEO')
-for geo, group_data in grouped_male:
-    ax1.plot(group_data['REF_DATE'], group_data['VALUE'],label=geo)
-ax1.set_title('Plot Grouped by GEO for Males')
-for geo, group_data in grouped_female:
-    ax2.plot(group_data['REF_DATE'], group_data['VALUE'],label=geo)
-ax2.set_title('Plot Grouped by GEO for Females')
+unempl_male = pd.read_csv('unempl_male.csv')
+unempl_female = pd.read_csv('unempl_female.csv')
+orig_data = pd.read_csv('unempl_rate_since_1977.csv')
+
+unempl_canada = orig_data[orig_data['GEO'] == 'Canada']
+
+plt.figure(figsize=(12, 6))
+
+sns.lineplot(x='REF_DATE', y='Unemployment Rate', hue='Sex', data=unempl_canada)
+
+plt.title('Unemployment Rate in Canada for Male and Female')
 plt.xlabel('Date')
-ax1.set_ylabel('Value')
-ax2.set_ylabel('Value')
-plt.legend() 
+plt.ylabel('Unemployment Rate')
+
+# Rotate x-axis labels for better readability
 plt.xticks(rotation=45)
-plt.tight_layout() 
-plt.savefig('Unemployment_rate.png')
-plt.close()
-unempl_canada = unempl_rate_data[unempl_rate_data['GEO'] == 'Canada']
-t_stat, p_value = stats.ttest_ind(unempl_canada[unempl_canada['Sex'] == 'Males']['VALUE'],
-                                 unempl_canada[unempl_canada['Sex'] == 'Females']['VALUE'], equal_var=False)
+
+ax = plt.gca()
+ax.xaxis.set_major_locator(MaxNLocator(nbins=8)) 
+
+# Show the plot
+plt.legend()
+plt.tight_layout()
+plt.savefig("Sex_Compar.png")
+
+t_stat, p_value = stats.ttest_ind(unempl_canada[unempl_canada['Sex'] == 'Males']['Unemployment Rate'],
+                                 unempl_canada[unempl_canada['Sex'] == 'Females']['Unemployment Rate'], equal_var=False)
 print("p_value = ", p_value)
 if p_value < 0.05:
     print(f'There is a significant difference in unemployment rates between male and female.')
 else:
     print(f'There is no significant difference in unemployment rates between male and female.')
-mean_unemployment_male = unempl_male.groupby('GEO')['VALUE'].mean()
-median_unemployment_male = unempl_male.groupby('GEO')['VALUE'].median()
-std_unemployment_male = unempl_male.groupby('GEO')['VALUE'].std()
-min_unemployment_male = unempl_male.groupby('GEO')['VALUE'].min()
-max_unemployment_male = unempl_male.groupby('GEO')['VALUE'].max()
+mean_unemployment_male = unempl_male.groupby('GEO')['Unemployment Rate'].mean()
+median_unemployment_male = unempl_male.groupby('GEO')['Unemployment Rate'].median()
+std_unemployment_male = unempl_male.groupby('GEO')['Unemployment Rate'].std()
+min_unemployment_male = unempl_male.groupby('GEO')['Unemployment Rate'].min()
+max_unemployment_male = unempl_male.groupby('GEO')['Unemployment Rate'].max()
 summary_male = pd.DataFrame({
-    'Mean Unemployment': mean_unemployment_male,
-    'Median Unemployment': median_unemployment_male,
+    'Mean': mean_unemployment_male,
+    'Median': median_unemployment_male,
     'Standard Deviation': std_unemployment_male,
-    'Minimum Unemployment': min_unemployment_male,
-    'Maximum Unemployment': max_unemployment_male
+    'Minimum': min_unemployment_male,
+    'Maximum': max_unemployment_male
 })
 summary_male.to_csv('Unemployment_Summary_Male.csv')
-mean_unemployment_female = unempl_male.groupby('GEO')['VALUE'].mean()
-median_unemployment_female = unempl_male.groupby('GEO')['VALUE'].median()
-std_unemployment_female = unempl_male.groupby('GEO')['VALUE'].std()
-min_unemployment_female = unempl_male.groupby('GEO')['VALUE'].min()
-max_unemployment_female = unempl_male.groupby('GEO')['VALUE'].max()
+mean_unemployment_female = unempl_female.groupby('GEO')['Unemployment Rate'].mean()
+median_unemployment_female = unempl_female.groupby('GEO')['Unemployment Rate'].median()
+std_unemployment_female = unempl_female.groupby('GEO')['Unemployment Rate'].std()
+min_unemployment_female = unempl_female.groupby('GEO')['Unemployment Rate'].min()
+max_unemployment_female = unempl_female.groupby('GEO')['Unemployment Rate'].max()
 summary_female = pd.DataFrame({
-    'Mean Unemployment': mean_unemployment_female,
-    'Median Unemployment': median_unemployment_female,
+    'Mean': mean_unemployment_female,
+    'Median': median_unemployment_female,
     'Standard Deviation': std_unemployment_female,
-    'Minimum Unemployment': min_unemployment_female,
-    'Maximum Unemployment': max_unemployment_female
+    'Minimum': min_unemployment_female,
+    'Maximum': max_unemployment_female
 })
 summary_female.to_csv('Unemployment_Summary_Female.csv')
