@@ -27,10 +27,10 @@ def fit(region_str):
     score_4 = model_4.score(x_model_3, y)
 
     fit_results = {'GEO': region_str,
-                   'result 1 pvalue': result.pvalue,
-                   'result 2 pvalue': result_2.pvalue,
-                   'result 3 score': score_3,
-                   'result 4 score': score_4}
+                   'prediction with covid cases pvalue': result.pvalue,
+                   'prediction with covid deaths pvalue': result_2.pvalue,
+                   'predictions with both score': score_3,
+                   'polynomial regression of both score': score_4}
     fit_results = pd.DataFrame(fit_results, index= ['GEO'])
 
     def predict_line(x):
@@ -39,7 +39,8 @@ def fit(region_str):
     def predict_line_2(x):
         return result_2.slope * x + result_2.intercept
 
-    data_corr = data[['total population(1000)','total labor force(1000)',
+    data_corr = data[['total population(1000)',
+                      'total labor force(1000)',
                       'total fulltime employments(1000)',
                       'total unemployed',
                       'total unemployment rate(%)',
@@ -58,7 +59,7 @@ def fit(region_str):
     plt.plot(data['datetime'], data['covid deaths'].map(predict_line_2))
     plt.plot(data['datetime'], model_3.predict(x_model_3))
     plt.plot(data['datetime'], model_4.predict(x_model_3))
-    plt.title('linear and polynomial fits of {} unemployment data'.format(region_str))
+    plt.title('linear and polynomial fits of {} unemployment rate'.format(region_str))
     plt.legend(['unemployment',
                 'prediction with covid cases',
                 'prediction with covid deaths',

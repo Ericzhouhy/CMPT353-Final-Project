@@ -28,8 +28,8 @@ def fit(region_str):
     score_2 = model_2.score(x_model, y)
 
     fit_results = {'GEO': region_str,
-                   'result 1 score': score_1,
-                   'result 2 score': score_2}
+                   'multilinear prediction': score_1,
+                   'polynomial prediction': score_2}
     fit_results = pd.DataFrame(fit_results, index= ['GEO'])
 
     data['datetime'] = data['REF_DATE'].map(to_datetime)
@@ -37,7 +37,8 @@ def fit(region_str):
     plt.scatter(data['datetime'], data['total unemployment rate(%)'])
     plt.plot(data['datetime'], model_1.predict(x_model))
     plt.plot(data['datetime'], model_2.predict(x_model))
-    plt.title('linear and polynomial fits of {} unemployment data'.format(region_str))
+    plt.title('linear and polynomial fits of {} unemployment rate'
+              'using local and Canada COVID-19 data'.format(region_str))
     plt.legend(['unemployment',
                 'predictions with augmented local and national covid data',
                 'polynomial regression of augmented local and national covid data'])

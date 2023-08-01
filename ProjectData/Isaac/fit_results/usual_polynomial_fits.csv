@@ -1,4 +1,4 @@
-GEO,result 1 pvalue,result 2 pvalue,result 3 score,result 4 score
+GEO,prediction with covid cases pvalue,prediction with covid deaths pvalue,predictions with both score,polynomial regression of both score
 Alberta,0.8846764095963104,0.6358500043968507,0.004803340924407706,0.11805697551568373
 British Columbia,0.9012761004099175,0.2768223328406732,0.024653512834545865,0.15839991642563978
 Canada,0.9152040336616403,0.0017279030869605965,0.2777296794363884,0.47142470909552336

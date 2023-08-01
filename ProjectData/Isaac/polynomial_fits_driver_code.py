@@ -18,15 +18,16 @@ names = ['Alberta',
 os.makedirs('./usual', exist_ok = True)
 os.makedirs('./pandemic', exist_ok = True)
 os.makedirs('./augmented', exist_ok = True)
+os.makedirs('./fit_results', exist_ok= True)
 usual_results_df = pd.DataFrame(columns=['GEO',
-                                         'result 1 pvalue',
-                                         'result 2 pvalue',
-                                         'result 3 score',
-                                         'result 4 score'])
+                                         'prediction with covid cases pvalue',
+                                         'prediction with covid deaths pvalue',
+                                         'predictions with both score',
+                                         'polynomial regression of both score'])
 during_pandemic_df = usual_results_df
 augmented_df = pd.DataFrame(columns = ['GEO',
-                                       'result 1 score',
-                                       'result 2 score'])
+                                       'multilinear prediction',
+                                       'polynomial prediction'])
 for name in names:
     usual_result = usual.fit(name)
     usual_results_df = pd.concat([usual_results_df, usual_result],
@@ -41,6 +42,6 @@ for name in names:
                              axis = 0,
                              ignore_index = True)
 
-usual_results_df.to_csv('usual_polynomial_fits.csv', index = False)
-during_pandemic_df.to_csv('during_pandemic_polynomial_fits.csv', index = False)
-augmented_df.to_csv('augmented_fits.csv', index = False)
+usual_results_df.to_csv('./fit_results/usual_polynomial_fits.csv', index = False)
+during_pandemic_df.to_csv('./fit_results/during_pandemic_polynomial_fits.csv', index = False)
+augmented_df.to_csv('./fit_results/augmented_fits.csv', index = False)

@@ -1,4 +1,4 @@
-GEO,result 1 score,result 2 score
+GEO,multilinear prediction,polynomial prediction
 Alberta,0.3956824272527544,0.7874865230567231
 British Columbia,0.5231436634639158,0.7672391314364768
 Canada,0.2777296794363886,0.4707194715204307
