@@ -5,12 +5,14 @@ import scipy.stats as stats
 import seaborn as sns 
 from matplotlib.ticker import MaxNLocator 
 
+# Import cleaned data
 unempl_male = pd.read_csv('unempl_male.csv')
 unempl_female = pd.read_csv('unempl_female.csv')
 orig_data = pd.read_csv('unempl_rate_since_1977.csv')
 
 unempl_canada = orig_data[orig_data['GEO'] == 'Canada']
 
+#Plot the cleaned data
 plt.figure(figsize=(12, 6))
 
 sns.lineplot(x='REF_DATE', y='Unemployment Rate', hue='Sex', data=unempl_canada)
@@ -19,17 +21,16 @@ plt.title('Unemployment Rate in Canada for Male and Female')
 plt.xlabel('Date')
 plt.ylabel('Unemployment Rate')
 
-# Rotate x-axis labels for better readability
 plt.xticks(rotation=45)
 
 ax = plt.gca()
 ax.xaxis.set_major_locator(MaxNLocator(nbins=8)) 
 
-# Show the plot
 plt.legend()
 plt.tight_layout()
 plt.savefig("Sex_Compar.png")
 
+# Create the data summary
 t_stat, p_value = stats.ttest_ind(unempl_canada[unempl_canada['Sex'] == 'Males']['Unemployment Rate'],
                                  unempl_canada[unempl_canada['Sex'] == 'Females']['Unemployment Rate'], equal_var=False)
 print("p_value = ", p_value)

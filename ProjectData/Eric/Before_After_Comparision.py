@@ -3,19 +3,16 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import mannwhitneyu
 
-# Assuming your data is in a CSV file called 'unemployment_data.csv'
 df = pd.read_csv('Unemployment_rate_AllGender.csv')
 
-# Preprocess the data
+# Splite data into three subsets
 df['REF_DATE'] = pd.to_datetime(df['REF_DATE'])
 
-# Data filtering based on date ranges
 before_pandemic = df[(df['REF_DATE'] >= '2019-01-01') & (df['REF_DATE'] <= '2020-01-31')]
 during_pandemic = df[(df['REF_DATE'] >= '2020-02-01') & (df['REF_DATE'] <= '2021-02-28')]
 after_pandemic = df[(df['REF_DATE'] >= '2022-06-01') & (df['REF_DATE'] <= '2023-06-30')]
 
-
-# Data Visualization - Box Plots
+# Create a boxplot
 plt.figure(figsize=(10, 6))
 sns.boxplot(x='GEO', y='Unemployment rate', hue='Period', data=pd.concat([before_pandemic.assign(Period='Before'), during_pandemic.assign(Period='During'), after_pandemic.assign(Period='After')]))
 plt.xlabel('Province')
@@ -26,9 +23,8 @@ plt.xticks(rotation=45)
 plt.tight_layout()
 plt.savefig('Unemployment_rate_boxplot.png')
 
-# Statistical Analysis - T-Tests
 results_df = pd.DataFrame(columns=['Province' , 'p-value (Before vs During)' ,'p-value (Before vs After)','p-value (During vs After)'])
-
+# Create the p-values of all tests and put them in csv
 for province in df['GEO'].unique():
     before_values = before_pandemic[before_pandemic['GEO'] == province]['Unemployment rate']
     during_values = during_pandemic[during_pandemic['GEO'] == province]['Unemployment rate']
@@ -45,5 +41,4 @@ for province in df['GEO'].unique():
         'p-value (During vs After)': pvalue_during_vs_after
     }, ignore_index=True)
 
-# Save the results to a CSV file
-results_df.to_csv('ttest_results.csv', index=False)
+results_df.to_csv('test_results.csv', index=False)
