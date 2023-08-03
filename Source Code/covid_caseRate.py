@@ -4,7 +4,7 @@ from matplotlib.dates import MonthLocator, DateFormatter
 import scipy.stats as stats
 import statsmodels.api as sm
 
-df = pd.read_csv('covid19-download.csv')
+df = pd.read_csv('../Resources Files/covid19-download.csv')
 
 df = df.dropna(subset=['ratecases_last7'])
 

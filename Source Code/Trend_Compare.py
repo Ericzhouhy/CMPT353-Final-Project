@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from scipy.stats import mannwhitneyu
 
 
-unempl_male = pd.read_csv('unempl_male.csv')
-unempl_female = pd.read_csv('unempl_female.csv')
+unempl_male = pd.read_csv('../Result Files/unempl_male.csv')
+unempl_female = pd.read_csv('../Result Files/unempl_female.csv')
 
 merged_data = pd.merge(unempl_male, unempl_female, on=['REF_DATE', 'GEO'], suffixes=('_male', '_female'))
 
@@ -29,4 +29,4 @@ plt.xlabel('Date')
 plt.ylabel('Unemployment Rate')
 plt.title('Trend Component Comparison for Male and Female')
 plt.legend()
-plt.savefig('Trend_Compar.png')
+plt.savefig('../Result Files/Trend_Compar.png')

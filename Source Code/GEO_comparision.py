@@ -4,7 +4,7 @@ import seaborn as sns
 from matplotlib.ticker import MaxNLocator 
 from scipy.stats import mannwhitneyu
 
-df = pd.read_csv('unempl_both_sex.csv')
+df = pd.read_csv('../Result Files/unempl_both_sex.csv')
 
 plt.figure(figsize=(12, 6))
 # Keep only two provinces

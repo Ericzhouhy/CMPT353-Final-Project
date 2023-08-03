@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv('unempl_rate_since_1977.csv')
+df = pd.read_csv('../Resources Files/unempl_rate_since_1977.csv')
 
 df_filtered = df[df['Sex'] == 'Both sexes']
 

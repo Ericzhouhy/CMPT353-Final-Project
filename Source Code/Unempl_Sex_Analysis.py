@@ -6,9 +6,9 @@ import seaborn as sns
 from matplotlib.ticker import MaxNLocator 
 
 # Import cleaned data
-unempl_male = pd.read_csv('unempl_male.csv')
-unempl_female = pd.read_csv('unempl_female.csv')
-orig_data = pd.read_csv('unempl_rate_since_1977.csv')
+unempl_male = pd.read_csv('../Result Files/unempl_male.csv')
+unempl_female = pd.read_csv('../Result Files/unempl_female.csv')
+orig_data = pd.read_csv('../Result Files/unempl_rate_since_1977.csv')
 
 unempl_canada = orig_data[orig_data['GEO'] == 'Canada']
 
@@ -28,7 +28,7 @@ ax.xaxis.set_major_locator(MaxNLocator(nbins=8))
 
 plt.legend()
 plt.tight_layout()
-plt.savefig("Sex_Compar.png")
+plt.savefig("../Result Files/Sex_Compar.png")
 
 # Create the data summary
 t_stat, p_value = stats.ttest_ind(unempl_canada[unempl_canada['Sex'] == 'Males']['Unemployment Rate'],
@@ -50,7 +50,7 @@ summary_male = pd.DataFrame({
     'Minimum': min_unemployment_male,
     'Maximum': max_unemployment_male
 })
-summary_male.to_csv('Unemployment_Summary_Male.csv')
+summary_male.to_csv('../Result Files/Unemployment_Summary_Male.csv')
 mean_unemployment_female = unempl_female.groupby('GEO')['Unemployment Rate'].mean()
 median_unemployment_female = unempl_female.groupby('GEO')['Unemployment Rate'].median()
 std_unemployment_female = unempl_female.groupby('GEO')['Unemployment Rate'].std()
@@ -63,4 +63,4 @@ summary_female = pd.DataFrame({
     'Minimum': min_unemployment_female,
     'Maximum': max_unemployment_female
 })
-summary_female.to_csv('Unemployment_Summary_Female.csv')
+summary_female.to_csv('../Result Files/Unemployment_Summary_Female.csv')
