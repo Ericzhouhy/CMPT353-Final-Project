@@ -16,7 +16,7 @@ All the source code in this project are provided in the folder 'Source Code'
 The 14100287-eng.zip, 14100287-SDMX.zip, and covid19-download.csv are in the folder 'Resource Files'
 All the output we produce in data processing and data cleaning, and data analyzing are provided in the folder 'Result Files'
 
-How to get all files in the 'Result Files' folder from scratch(code that uses models with randomized algorithms will produce slightly different files):
+How to get all results and generate files in the 'Result Files' folder from scratch(code that uses models with randomized algorithms will produce slightly different files):
 1. Ensure that 'python' command invokes python 3.10, or replace each 'python' command below with one that does so, for example 'python3'
 2. Ensure all required packages/libraries are installed
 3. Navigate to the 'Resource Files' folder. Unzip 'data_since_1977.7z' into 'data_since_1977.csv', leave it in the 'Resource Files' folder
@@ -29,11 +29,16 @@ How to get all files in the 'Result Files' folder from scratch(code that uses mo
 10. Run 'python augment_national_covid.py' to get 'covid_and_employment_augmented_national_covid.csv'
 11. Run 'python Unempl_Sex_Analysis.py' to get files 'Unemployment_Summary_Male.csv', 'Unemployment_Summary_Male.csv' and 'Sex_Compar.png'
 12. Run 'python Combine_male_female.py' to get 'Unemployment_rate_AllGender.csv'
-13. 
+13. Run 'python Before_After_Comparision.py' to get files 'test_results.csv' and 'Unemployment_rate_boxplot.png'
+14. Run 'python clean_data.py' to get 'un_1997.csv'
+15. Run 'python covid_caseRate.py'. Instead of saving to file, it will show the graph 'Rate of COVID-19 Cases by Province', and also print out the pvalue for ttest_ind between Alberta and Yukon's weekly cases
+16. Run 'python GEO_comparision.py'. Instead of saving to file, it will show the graph 'Unemployment rate In Newfoundland and Labrador and Sascatchewan', as well as showing the pvalue for Mann-Whitney U test of these two data
+17. Run 'python polynomial_fits_driver_code.py'. It will invoke .py files 'unemployment_rate_fit.py', 'during_pandemic_fit.py' and 'augmented_fit.py', and generate all files in subdirectories 'augmented', 'fit_results', 'pandemic' and 'usual' of the folder 'Result Files'
+18. Run 'python ML-DL.py' to get file 'DNN_results.csv'
+19. Run 'python ML-KNN.py' to get files 'KNN_results.csv' and 'KNN_results_figure.png'
+20. Run 'python ML-RF.py' to get files 'RF_results.csv' and 'RF_results_figure.png'
+21. Run 'python Trend_Compare.py' TODO:
 
-
-The Folders 'Eric', 'Gary', and 'Issac' were created for the convenience of our cooperation,
+The 'Result Files' Folder contains all the information we used in our report, aside from the plots showed and the outputs printed to the console in the steps above.
+The Folders 'Eric', 'Gary', and 'Isaac' were created for the convenience of code management,
 all the files in these folders have been duplicated in the three folders I mentioned above based on their function.
-
-To execute the source codes, you need to unzip the data_since_1977.7z and put all the files from 'Source Code' and 'Resource Files' in one folder.
-Then execute the Python files, and you will get the output we mentioned in the report.

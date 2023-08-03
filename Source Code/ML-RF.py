@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
-data = pd.read_csv("covid_and_employment_total_included.csv")
+data = pd.read_csv("../Result Files/covid_and_employment_total_included.csv")
 
 cities = data['GEO'].unique()
 
@@ -33,7 +33,7 @@ for city in cities:
                           'Feature Importance': [feature_importances]})
     results = pd.concat([results, result], ignore_index=True)
 
-results.to_csv('RF_results.csv', index=False)
+results.to_csv('../Result Files/RF_results.csv', index=False)
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -55,4 +55,4 @@ plt.legend()
 
 plt.tight_layout()
 
-plt.savefig('RF_results_figure.png')
+plt.savefig('../Result Files/RF_results_figure.png')

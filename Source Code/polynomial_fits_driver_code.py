@@ -17,7 +17,7 @@ names = ['Alberta',
 ]
 os.makedirs('../Result Files/usual', exist_ok = True)
 os.makedirs('../Result Files/pandemic', exist_ok = True)
-os.makedirs('../Result Filesaugmented', exist_ok = True)
+os.makedirs('../Result Files/augmented', exist_ok = True)
 os.makedirs('../Result Files/fit_results', exist_ok= True)
 usual_results_df = pd.DataFrame(columns=['GEO',
                                          'prediction with covid cases pvalue',

@@ -9,7 +9,7 @@ from sklearn.linear_model import LinearRegression
 def to_datetime(date_str):
     return datetime.strptime(date_str, '%Y-%m')
 def fit(region_str):
-    data = pd.read_csv('../covid_and_employment_total_included.csv')
+    data = pd.read_csv('../Result Files/covid_and_employment_total_included.csv')
     data = data[data['GEO'] == region_str]
 
     y = data['total unemployment rate(%)']
@@ -49,7 +49,7 @@ def fit(region_str):
                       'covid cases',
                       'covid deaths']]
     data_corr = data_corr.corr(method='pearson', numeric_only = True)
-    data_corr.to_csv('./usual/covid_employment_correlations_{}.csv'.format(region_str))
+    data_corr.to_csv('../Result Files/usual/covid_employment_correlations_{}.csv'.format(region_str))
 
     data['datetime'] = data['REF_DATE'].map(to_datetime)
 
@@ -65,7 +65,7 @@ def fit(region_str):
                 'prediction with covid deaths',
                 'predictions with both',
                 'polynomial regression of both'])
-    fig_location = './usual/' + region_str + '_polynomial_fits.svg'
+    fig_location = '../Result Files/usual/' + region_str + '_polynomial_fits.svg'
     plt.savefig(fig_location)
     plt.clf()
     return fit_results

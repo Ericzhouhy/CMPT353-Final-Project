@@ -33,12 +33,12 @@ for province in df['GEO'].unique():
     statistic_before_vs_during, pvalue_before_vs_during = mannwhitneyu(before_values, during_values, alternative='two-sided')
     statistic_before_vs_after, pvalue_before_vs_after = mannwhitneyu(before_values, after_values, alternative='two-sided')
     statistic_during_vs_after, pvalue_during_vs_after = mannwhitneyu(during_values, after_values, alternative='two-sided')
-    
-    results_df = results_df.append({
+    temp_row = pd.DataFrame({
         'Province': province,
         'p-value (Before vs During)': pvalue_before_vs_during,
         'p-value (Before vs After)': pvalue_before_vs_after,
         'p-value (During vs After)': pvalue_during_vs_after
-    }, ignore_index=True)
+    }, index=['Province'])
+    results_df = pd.concat([df, temp_row], ignore_index=True)
 
 results_df.to_csv('../Result Files/test_results.csv', index=False)

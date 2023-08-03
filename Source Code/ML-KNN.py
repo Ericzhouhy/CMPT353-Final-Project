@@ -4,7 +4,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
-data = pd.read_csv("covid_and_employment_total_included.csv")  
+data = pd.read_csv("../Result Files/covid_and_employment_total_included.csv")  
 
 cities = data['GEO'].unique()
 
@@ -37,7 +37,7 @@ for city in cities:
     result = pd.DataFrame({'City': [city], 'MSE': [mse], 'MAE': [mae]})
     results = pd.concat([results, result])
 
-results.to_csv('KNN_results.csv', index=False)
+results.to_csv('../Result Files/KNN_results.csv', index=False)
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -59,4 +59,4 @@ plt.legend()
 
 plt.tight_layout()
 
-plt.savefig('KNN_results_figure.png')
+plt.savefig('../Result Files/KNN_results_figure.png')

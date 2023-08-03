@@ -5,7 +5,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.optimizers import Adam
 
-data = pd.read_csv("covid_and_employment_total_included.csv")  
+data = pd.read_csv("../Result Files/covid_and_employment_total_included.csv")  
 
 cities = data['GEO'].unique()
 
@@ -44,4 +44,4 @@ for city in cities:
 
 
 results_df = pd.DataFrame(results)
-results_df.to_csv('DNN_results.csv', index=False)
+results_df.to_csv('../Result Files/DNN_results.csv', index=False)
