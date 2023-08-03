@@ -27,7 +27,7 @@ How to get all results and generate files in the 'Result Files' folder from scra
 8. Run "python 'Clean&Visualization.py'" to get the files starting with 'unempl_' and 'Unempl_'
 9. Run 'python append_covid_data.py' to get 'covid_and_employment_total_included.csv'
 10. Run 'python augment_national_covid.py' to get 'covid_and_employment_augmented_national_covid.csv'
-11. Run 'python Unempl_Sex_Analysis.py' to get files 'Unemployment_Summary_Male.csv', 'Unemployment_Summary_Male.csv' and 'Sex_Compar.png'
+11. Run 'python Unempl_Sex_Analysis.py' to get files 'Unemployment_Summary_Male.csv', 'Unemployment_Summary_Male.csv' and 'Sex_Compar.png'. It will also print a pvalue for difference in trend of male and female unemployment
 12. Run 'python Combine_male_female.py' to get 'Unemployment_rate_AllGender.csv'
 13. Run 'python Before_After_Comparision.py' to get files 'test_results.csv' and 'Unemployment_rate_boxplot.png'
 14. Run 'python clean_data.py' to get 'un_1997.csv'
@@ -37,7 +37,7 @@ How to get all results and generate files in the 'Result Files' folder from scra
 18. Run 'python ML-DL.py' to get file 'DNN_results.csv'
 19. Run 'python ML-KNN.py' to get files 'KNN_results.csv' and 'KNN_results_figure.png'
 20. Run 'python ML-RF.py' to get files 'RF_results.csv' and 'RF_results_figure.png'
-21. Run 'python Trend_Compare.py' TODO:
+21. Run 'python Trend_Compare.py' to get Trend_Compar.png
 
 The 'Result Files' Folder contains all the information we used in our report, aside from the plots showed and the outputs printed to the console in the steps above.
 The Folders 'Eric', 'Gary', and 'Isaac' were created for the convenience of code management,

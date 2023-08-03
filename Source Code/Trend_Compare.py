@@ -15,7 +15,7 @@ merged_data['REF_DATE'] = pd.to_datetime(merged_data['REF_DATE'])
 
 merged_data.set_index('REF_DATE', inplace=True)
 
-merged_data_monthly = merged_data.resample('MS').mean()
+merged_data_monthly = merged_data.resample('MS').mean(numeric_only=True)
 
 # Decomposition
 result_male = sm.tsa.seasonal_decompose(merged_data_monthly['Male'], model='additive')
