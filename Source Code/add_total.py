@@ -1,6 +1,6 @@
 import pandas as pd
 
-data = pd.read_csv('.../Result Files/combined_reformatted.csv')
+data = pd.read_csv('../Result Files/combined_reformatted.csv')
 data['total population(1000)'] = data['male population(1000)'] + data['female population(1000)']
 data['male pop weight'] = data['male population(1000)'] / data['total population(1000)']
 data['female pop weight'] = data['female population(1000)'] / data['total population(1000)']

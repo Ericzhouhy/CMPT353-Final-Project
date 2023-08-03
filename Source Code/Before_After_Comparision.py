@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import mannwhitneyu
 
-df = pd.read_csv('Unemployment_rate_AllGender.csv')
+df = pd.read_csv('../Result Files/Unemployment_rate_AllGender.csv')
 
 # Splite data into three subsets
 df['REF_DATE'] = pd.to_datetime(df['REF_DATE'])
@@ -21,7 +21,7 @@ plt.title('Unemployment Rate Distribution Comparison')
 plt.legend(title='Period')
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.savefig('Unemployment_rate_boxplot.png')
+plt.savefig('../Result Files/Unemployment_rate_boxplot.png')
 
 results_df = pd.DataFrame(columns=['Province' , 'p-value (Before vs During)' ,'p-value (Before vs After)','p-value (During vs After)'])
 # Create the p-values of all tests and put them in csv
@@ -41,4 +41,4 @@ for province in df['GEO'].unique():
         'p-value (During vs After)': pvalue_during_vs_after
     }, ignore_index=True)
 
-results_df.to_csv('test_results.csv', index=False)
+results_df.to_csv('../Result Files/test_results.csv', index=False)

@@ -9,7 +9,7 @@ from sklearn.linear_model import LinearRegression
 def to_datetime(date_str):
     return datetime.strptime(date_str, '%Y-%m')
 def fit(region_str):
-    data = pd.read_csv('covid_and_employment_augmented_national_covid.csv')
+    data = pd.read_csv('../Result Files/covid_and_employment_augmented_national_covid.csv')
     data = data[data['GEO'] == region_str]
 
     y = data['total unemployment rate(%)']
@@ -42,7 +42,7 @@ def fit(region_str):
     plt.legend(['unemployment',
                 'predictions with augmented local and national covid data\n',
                 'polynomial regression of augmented local and national covid data'])
-    fig_location = './augmented/' + region_str + '_polynomial_fits.svg'
+    fig_location = '../Result Files/augmented/' + region_str + '_polynomial_fits.svg'
     plt.savefig(fig_location)
     plt.clf()
     return fit_results
